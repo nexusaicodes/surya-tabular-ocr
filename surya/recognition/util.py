@@ -7,28 +7,6 @@ import torch
 from surya.common.polygon import PolygonBox
 from surya.recognition.schema import TextLine, TextWord, TextChar
 
-MATH_SYMBOLS = ["+", "-", "*", "=", "^", "_", "\\", "{", "}"]
-
-
-def unwrap_math(text: str) -> str:
-    if len(text) > 50:
-        return text
-
-    # Detected as math, but does not contain LaTeX commands
-    if (
-        re.match(r'^\s*<math(?:\s+display="inline")?.*?</math>\s*$', text, re.DOTALL)
-        and text.count("<math") == 1
-        and not any([symb in text for symb in MATH_SYMBOLS])
-    ):
-        # Remove math tags
-        text = re.sub(r"<math.*?>", "", text)
-        text = re.sub(r"</math>", "", text)
-
-    return text
-
-
-MATH_BLOCK = re.compile(r"(<math\b[^>]*>)(.*?)</math>", flags=re.I | re.S)
-STRIP_TAGS = re.compile(r"</?(?:br|u|del|mark|i|b|sup|sub)\b[^>]*>", flags=re.I | re.S)
 DEFAULT_TAGS_TO_FILTER = ["p", "li", "ul", "ol", "table", "td", "tr", "th", "tbody", "pre"]
 
 def filter_blacklist_tags(text_chars: List[TextChar], tags_to_filter: List[str] = None) -> List[TextChar]:
@@ -74,31 +52,6 @@ def filter_blacklist_tags(text_chars: List[TextChar], tags_to_filter: List[str] 
         filtered_chars.extend(char_buffer)
 
     return filtered_chars
-
-
-def clean_math_tags(html: str) -> str:
-    # strip unwanted tags inside every well‑formed <math>…</math>
-    def _inner(m):
-        inner = STRIP_TAGS.sub("", m.group(2))
-        return f"{m.group(1)}{inner}</math>" if inner.strip() else ""
-
-    cleaned = MATH_BLOCK.sub(_inner, html)
-
-    # drop only orphan *closing* </math> tags
-    depth = 0
-    parts = []
-    for token in re.split(r"(</?math[^>]*>)", cleaned, flags=re.I):
-        if token.lower().startswith("<math"):
-            depth += 1
-            parts.append(token)
-        elif token.lower() == "</math>":
-            if depth:  # keep it only if it matches an open
-                depth -= 1
-                parts.append(token)
-            # else: skip orphan closing tag
-        else:
-            parts.append(token)
-    return "".join(parts)
 
 
 def sort_text_lines(lines: List[TextLine] | List[dict], tolerance=1.25):

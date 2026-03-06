@@ -1,17 +1,11 @@
-from typing import List, Optional
 import os
 import requests
 
 from surya.settings import settings
 
 
-def get_font_path(langs: Optional[List[str]] = None) -> str:
+def get_font_path() -> str:
     font_path = settings.RECOGNITION_RENDER_FONTS["all"]
-    if langs is not None:
-        for k in settings.RECOGNITION_RENDER_FONTS:
-            if k in langs and len(langs) == 1:
-                font_path = settings.RECOGNITION_RENDER_FONTS[k]
-                break
 
     if not os.path.exists(font_path):
         os.makedirs(os.path.dirname(font_path), exist_ok=True)

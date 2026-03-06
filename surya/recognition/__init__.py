@@ -9,7 +9,6 @@ from PIL import Image
 import torch.nn.functional as F
 
 from surya.common.polygon import PolygonBox
-from surya.common.surya.processor import NOMATH_TOKEN
 from surya.common.predictor import BasePredictor
 from surya.detection import DetectionPredictor
 from surya.foundation import FoundationPredictor
@@ -23,8 +22,6 @@ from surya.recognition.postprocessing import fix_unbalanced_tags
 from surya.recognition.util import (
     sort_text_lines,
     clean_close_polygons,
-    unwrap_math,
-    clean_math_tags,
     filter_blacklist_tags,
     words_from_chars
 )
@@ -307,7 +304,7 @@ class RecognitionPredictor(BasePredictor):
                     text = self.processor.ocr_tokenizer.decode(
                         token_ids, task="ocr_without_boxes"
                     )
-                    if text in [NOMATH_TOKEN] or re.match(r"<SCRIPT-\w+>", text):
+                    if re.match(r"<SCRIPT-\w+>", text):
                         continue
 
                     img_chars.append(
@@ -347,7 +344,6 @@ class RecognitionPredictor(BasePredictor):
         polygons: List[List[List[List[int]]]] | None = None,
         input_text: List[List[str | None]] | None = None,
         sort_lines: bool = False,
-        math_mode: bool = True,
         return_words: bool = False,
         drop_repeated_text: bool = False,
         max_sliding_window: int | None = None,
@@ -433,7 +429,7 @@ class RecognitionPredictor(BasePredictor):
             input_texts=flat["input_text"],
             task_names=flat["task_names"],
             batch_size=recognition_batch_size,
-            math_mode=math_mode,
+            math_mode=False,
             drop_repeated_tokens=True,
             max_lookahead_tokens=self.foundation_predictor.model.config.multi_output_distance,
             max_sliding_window=max_sliding_window,
@@ -501,8 +497,6 @@ class RecognitionPredictor(BasePredictor):
                     )
                     text_line = filter_blacklist_tags(text_line, filter_tag_list)
                     text = "".join([char.text for char in text_line])
-                    text = unwrap_math(text)
-                    text = clean_math_tags(text)
                     lines.append(
                         TextLine(
                             text=text,

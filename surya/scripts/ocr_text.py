@@ -18,11 +18,8 @@ logger = get_logger()
 
 @click.command(help="OCR text.")
 @click.option("--task_name", type=str, default=TaskNames.ocr_with_boxes)
-@click.option(
-    "--disable_math", is_flag=True, default=False, help="Do not recognize math in OCR."
-)
 @CLILoader.common_options
-def ocr_text_cli(input_path: str, task_name: str, disable_math: bool, **kwargs):
+def ocr_text_cli(input_path: str, task_name: str, **kwargs):
     loader = CLILoader(input_path, kwargs, highres=True)
     task_names = [task_name] * len(loader.images)
 
@@ -36,7 +33,6 @@ def ocr_text_cli(input_path: str, task_name: str, disable_math: bool, **kwargs):
         task_names=task_names,
         det_predictor=det_predictor,
         highres_images=loader.highres_images,
-        math_mode=not disable_math,
     )
 
     if loader.debug:

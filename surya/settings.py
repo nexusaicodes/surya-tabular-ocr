@@ -90,9 +90,6 @@ class Settings(BaseSettings):
     )
     RECOGNITION_RENDER_FONTS: Dict[str, str] = {
         "all": os.path.join(FONT_DIR, "GoNotoCurrent-Regular.ttf"),
-        "zh": os.path.join(FONT_DIR, "GoNotoCJKCore.ttf"),
-        "ja": os.path.join(FONT_DIR, "GoNotoCJKCore.ttf"),
-        "ko": os.path.join(FONT_DIR, "GoNotoCJKCore.ttf"),
     }
     RECOGNITION_FONT_DL_BASE: str = (
         "https://github.com/satbyy/go-noto-universal/releases/download/v7.0"
@@ -122,14 +119,6 @@ class Settings(BaseSettings):
     TABLE_REC_BATCH_SIZE: Optional[int] = None
     TABLE_REC_BENCH_DATASET_NAME: str = "datalab-to/fintabnet_bench"
     COMPILE_TABLE_REC: bool = False
-
-    # Texify
-    TEXIFY_BENCHMARK_DATASET: str = "datalab-to/texify_bench"
-
-    # OCR Error Detection
-    OCR_ERROR_MODEL_CHECKPOINT: str = "s3://ocr_error_detection/2025_02_18"
-    OCR_ERROR_BATCH_SIZE: Optional[int] = None
-    COMPILE_OCR_ERROR: bool = False
 
     # Tesseract (for benchmarks only)
     TESSDATA_PREFIX: Optional[str] = None
@@ -169,14 +158,6 @@ class Settings(BaseSettings):
         return (
             self.COMPILE_ALL
             or self.COMPILE_TABLE_REC
-            or self.TORCH_DEVICE_MODEL == "xla"
-        )
-
-    @computed_field
-    def OCR_ERROR_STATIC_CACHE(self) -> bool:
-        return (
-            self.COMPILE_ALL
-            or self.COMPILE_OCR_ERROR
             or self.TORCH_DEVICE_MODEL == "xla"
         )
 
