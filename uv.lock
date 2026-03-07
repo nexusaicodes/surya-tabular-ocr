@@ -3666,7 +3666,6 @@ name = "surya-tabular-ocr"
 version = "0.17.1"
 source = { editable = "." }
 dependencies = [
-    { name = "click" },
     { name = "einops" },
     { name = "filetype" },
     { name = "opencv-python-headless" },
@@ -3695,7 +3694,6 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "click", specifier = ">=8.1.8,<9" },
     { name = "einops", specifier = ">=0.8.1,<1" },
     { name = "filetype", specifier = ">=1.2.0,<2" },
     { name = "opencv-python-headless", specifier = "==4.11.0.86" },

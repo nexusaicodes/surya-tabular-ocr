@@ -18,24 +18,12 @@ uv run pytest                      # all tests
 uv run pytest tests/test_recognition.py  # single test file
 uv run pytest tests/test_recognition.py::test_name  # single test
 
-# CLI tools (after install)
-uv run surya_ocr DATA_PATH         # OCR: detect text lines + read text
-uv run surya_layout DATA_PATH      # Layout: detect tables, headers, sections, etc.
-uv run surya_table DATA_PATH       # Table recognition: rows, columns, cells
-
 # Benchmarks
 uv run python benchmark/detection.py --max_rows 256
 uv run python benchmark/recognition.py
 uv run python benchmark/layout.py
 uv run python benchmark/table_recognition.py --max_rows 1024
 ```
-
-### CLI common flags
-All CLI tools accept: `INPUT_PATH` (required), `--output_dir PATH`, `--page_range TEXT` (e.g. `0,5-10,20`), `--images` (save debug images), `-d/--debug`.
-
-`surya_ocr` additionally accepts `--task_name` (default: `ocr_with_boxes`, alternatives: `ocr_without_boxes`, `block_without_boxes`).
-
-`surya_table` additionally accepts `--detect_boxes` and `--skip_table_detection`.
 
 ## Architecture
 
@@ -54,7 +42,7 @@ All models follow a predictor pattern inheriting from `surya/common/predictor.py
 ### Key Directories
 - `surya/common/` — Shared utilities: `predictor.py` (base class), `polygon.py`, model loaders (`load.py`, `s3.py`), architecture bases (`surya/`, `donut/`, `adetr/`)
 - `surya/foundation/` — Foundation model: loader, processor, cache implementations (dynamic/static), utilities
-- `surya/scripts/` — CLI entry points (`ocr_text.py`, `detect_layout.py`, `table_recognition.py`) and the finetuning script (`finetune_ocr.py`)
+- `surya/scripts/` — Finetuning script (`finetune_ocr.py`) and legacy CLI entry points
 - `surya/settings.py` — All configuration via pydantic-settings `Settings` class. Every setting is overridable via environment variables.
 - `surya/input/` — Image preprocessing (slicing, polygon extraction)
 - `benchmark/` — Benchmark scripts for detection, recognition, layout, table recognition
