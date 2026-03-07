@@ -27,7 +27,6 @@ class Settings(BaseSettings):
     DATA_DIR: str = "data"
     RESULT_DIR: str = "results"
     BASE_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    FONT_DIR: str = os.path.join(BASE_DIR, "static", "fonts")
 
     @computed_field
     def TORCH_DEVICE_MODEL(self) -> str:
@@ -77,12 +76,6 @@ class Settings(BaseSettings):
     RECOGNITION_MODEL_CHECKPOINT: str = "s3://text_recognition/2025_09_23"
     RECOGNITION_BATCH_SIZE: Optional[int] = (
         None  # Defaults to 8 for CPU/MPS, 256 otherwise
-    )
-    RECOGNITION_RENDER_FONTS: Dict[str, str] = {
-        "all": os.path.join(FONT_DIR, "GoNotoCurrent-Regular.ttf"),
-    }
-    RECOGNITION_FONT_DL_BASE: str = (
-        "https://github.com/satbyy/go-noto-universal/releases/download/v7.0"
     )
     RECOGNITION_PAD_VALUE: int = 255  # Should be 0 or 255
 
