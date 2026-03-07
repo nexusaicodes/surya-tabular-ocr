@@ -1,4 +1,3 @@
-import copy
 import math
 from typing import List
 import torch
@@ -45,21 +44,6 @@ def clean_boxes(boxes: List[PolygonBox]) -> List[PolygonBox]:
     return new_boxes
 
 
-def rescale_bbox(bbox, processor_size, image_size):
-    page_width, page_height = processor_size
-
-    img_width, img_height = image_size
-    width_scaler = img_width / page_width
-    height_scaler = img_height / page_height
-
-    new_bbox = copy.deepcopy(bbox)
-    new_bbox[0] = int(new_bbox[0] * width_scaler)
-    new_bbox[1] = int(new_bbox[1] * height_scaler)
-    new_bbox[2] = int(new_bbox[2] * width_scaler)
-    new_bbox[3] = int(new_bbox[3] * height_scaler)
-    return new_bbox
-
-
 def expand_bbox(bbox, expansion_factor=0.01):
     expansion_low = 1 - expansion_factor
     expansion_high = 1 + expansion_factor
@@ -69,6 +53,7 @@ def expand_bbox(bbox, expansion_factor=0.01):
         bbox[2] * expansion_high,
         bbox[3] * expansion_high,
     ]
+
 
 def is_flash_attn_2_supported(device: str | torch.device) -> bool:
     if not torch.cuda.is_available():

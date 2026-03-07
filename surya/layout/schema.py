@@ -14,4 +14,3 @@ class LayoutBox(PolygonBox):
 class LayoutResult(BaseModel):
     bboxes: List[LayoutBox]
     image_bbox: List[float]
-    sliced: bool = False  # Whether the image was sliced and reconstructed

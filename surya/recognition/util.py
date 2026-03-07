@@ -1,15 +1,25 @@
-import re
-from typing import List, Tuple
-
-import numpy
-import torch
+from typing import List
 
 from surya.common.polygon import PolygonBox
 from surya.recognition.schema import TextLine, TextWord, TextChar
 
-DEFAULT_TAGS_TO_FILTER = ["p", "li", "ul", "ol", "table", "td", "tr", "th", "tbody", "pre"]
+DEFAULT_TAGS_TO_FILTER = [
+    "p",
+    "li",
+    "ul",
+    "ol",
+    "table",
+    "td",
+    "tr",
+    "th",
+    "tbody",
+    "pre",
+]
 
-def filter_blacklist_tags(text_chars: List[TextChar], tags_to_filter: List[str] = None) -> List[TextChar]:
+
+def filter_blacklist_tags(
+    text_chars: List[TextChar], tags_to_filter: List[str] = None
+) -> List[TextChar]:
     filtered_chars = []
     char_buffer = []
     in_tag = False
@@ -23,18 +33,18 @@ def filter_blacklist_tags(text_chars: List[TextChar], tags_to_filter: List[str] 
             in_tag = True
             char_buffer.append(text_char)
             if char.endswith(">"):
-                full_tag = ''.join(c.text for c in char_buffer)
+                full_tag = "".join(c.text for c in char_buffer)
                 inner = full_tag[1:-1].strip()  # remove < >
                 inner = inner.strip("/")  # remove '/'
-                
+
                 # Possible that it is just an empty <>
                 if not inner:
                     filtered_chars.extend(char_buffer)
                     in_tag = False
                     char_buffer = []
                     continue
-                
-                tag_name_candidate = inner.split()[0]   # remove any attributes
+
+                tag_name_candidate = inner.split()[0]  # remove any attributes
                 if tag_name_candidate in tags_to_filter:
                     # Discard tag
                     pass

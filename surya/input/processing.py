@@ -2,7 +2,6 @@ from typing import List
 
 import cv2
 import numpy as np
-import pypdfium2
 from PIL import Image
 
 from surya.logging import get_logger
@@ -18,18 +17,6 @@ def convert_if_not_rgb(images: List[Image.Image]) -> List[Image.Image]:
             image = image.convert("RGB")
         new_images.append(image)
     return new_images
-
-
-def open_pdf(pdf_filepath):
-    return pypdfium2.PdfDocument(pdf_filepath)
-
-
-def get_page_images(doc, indices: List, dpi=settings.IMAGE_DPI):
-    images = [
-        doc[i].render(scale=dpi / 72, draw_annots=False).to_pil() for i in indices
-    ]
-    images = [image.convert("RGB") for image in images]
-    return images
 
 
 def slice_bboxes_from_image(image: np.ndarray, bboxes):

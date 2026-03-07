@@ -33,8 +33,6 @@ dependencies = [
     "pydantic-settings>=2.1.0,<3",
     "python-dotenv>=1.0.0,<2",
     "pillow>=10.2.0",
-    "pypdfium2==4.30.0",
-    "filetype>=1.2.0,<2",
 
     "platformdirs>=4.3.6,<5",
     "opencv-python-headless==4.11.0.86",

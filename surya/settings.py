@@ -12,9 +12,6 @@ from platformdirs import user_cache_dir
 class Settings(BaseSettings):
     # General
     TORCH_DEVICE: Optional[str] = None
-    IMAGE_DPI: int = 96  # Used for detection, layout, reading order
-    IMAGE_DPI_HIGHRES: int = 192  # Used for OCR, table rec
-    FLATTEN_PDF: bool = True  # Flatten PDFs by merging form fields before processing
     DISABLE_TQDM: bool = False  # Disable tqdm progress bars
     S3_BASE_URL: str = "https://models.datalab.to"
     PARALLEL_DOWNLOAD_WORKERS: int = (
@@ -22,11 +19,6 @@ class Settings(BaseSettings):
     )
     MODEL_CACHE_DIR: str = str(Path(user_cache_dir("datalab")) / "models")
     LOGLEVEL: str = "INFO"  # Logging level
-
-    # Paths
-    DATA_DIR: str = "data"
-    RESULT_DIR: str = "results"
-    BASE_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     @computed_field
     def TORCH_DEVICE_MODEL(self) -> str:
@@ -66,7 +58,6 @@ class Settings(BaseSettings):
 
     # Text recognition
     FOUNDATION_MODEL_CHECKPOINT: str = "s3://text_recognition/2025_09_23"
-    FOUNDATION_MODEL_QUANTIZE: bool = False
     FOUNDATION_MAX_TOKENS: Optional[int] = None
     FOUNDATION_CHUNK_SIZE: Optional[int] = None
     FOUNDATION_PAD_TO_NEAREST: int = 256
@@ -81,15 +72,7 @@ class Settings(BaseSettings):
 
     # Layout
     LAYOUT_MODEL_CHECKPOINT: str = "s3://layout/2025_09_23"
-    LAYOUT_IMAGE_SIZE: Dict = {"height": 768, "width": 768}
-    LAYOUT_SLICE_MIN: Dict = {
-        "height": 1500,
-        "width": 1500,
-    }  # When to start slicing images
-    LAYOUT_SLICE_SIZE: Dict = {"height": 1200, "width": 1200}  # Size of slices
     LAYOUT_BATCH_SIZE: Optional[int] = None
-    LAYOUT_MAX_BOXES: int = 100
-    COMPILE_LAYOUT: bool = False
 
     # Table Rec
     TABLE_REC_MODEL_CHECKPOINT: str = "s3://table_recognition/2025_02_18"
@@ -103,10 +86,6 @@ class Settings(BaseSettings):
     @computed_field
     def DETECTOR_STATIC_CACHE(self) -> bool:
         return self.COMPILE_ALL or self.COMPILE_DETECTOR
-
-    @computed_field
-    def LAYOUT_STATIC_CACHE(self) -> bool:
-        return self.COMPILE_ALL or self.COMPILE_LAYOUT
 
     @computed_field
     def FOUNDATION_STATIC_CACHE(self) -> bool:

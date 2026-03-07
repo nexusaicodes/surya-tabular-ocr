@@ -1,9 +1,8 @@
 from io import BytesIO
-from typing import List
 
 from PIL import Image
 
-from surya.common.util import rescale_bbox, expand_bbox
+from surya.common.util import expand_bbox
 from surya.models import load_predictors
 
 
