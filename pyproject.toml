@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "English OCR, layout analysis, and table recognition from document images"
 readme = "README.md"
 license = "GPL-3.0-or-later"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [{ name = "Nexus AI", email = "saksham@nexusai.world" }]
 maintainers = [{ name = "Saksham Saxena", email = "saksham@nexusai.world" }]
 keywords = ["ocr", "pdf", "table recognition", "text detection", "layout analysis"]
@@ -19,7 +19,6 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",

@@ -9,7 +9,7 @@ Trimmed fork of Surya focused on **English-only OCR, layout analysis, and table 
 ## Build & Development Commands
 
 ```bash
-# Install (requires Python 3.10+, PyTorch 2.7+, uv)
+# Install (requires Python 3.11+, PyTorch 2.7+, uv)
 uv sync                     # main deps
 uv sync --group dev         # main + dev deps
 pre-commit install           # enable ruff linting/formatting on commit
