@@ -7,6 +7,8 @@ A trimmed fork of [Surya](https://github.com/VikParuchuri/surya) focused on **En
 Requires Python 3.10+ and PyTorch. You may need to install the CPU version of torch first if you're not using a Mac or a GPU machine. See [here](https://pytorch.org/get-started/locally/) for more details.
 
 ```shell
+pip install surya-tabular-ocr
+# or
 uv add surya-tabular-ocr
 ```
 
