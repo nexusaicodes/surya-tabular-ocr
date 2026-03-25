@@ -4,12 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "surya-tabular-ocr"
-version = "0.17.1"
+version = "0.1.0"
 description = "English OCR, layout analysis, and table recognition from document images"
 readme = "README.md"
 license = "GPL-3.0-or-later"
 requires-python = ">=3.10"
-authors = [{ name = "Saksham Saxena" }]
+authors = [{ name = "Nexus AI", email = "saksham@nexusai.world" }]
+maintainers = [{ name = "Saksham Saxena", email = "saksham@nexusai.world" }]
 keywords = ["ocr", "pdf", "table recognition", "text detection", "layout analysis"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -35,12 +36,13 @@ dependencies = [
     "pillow>=10.2.0",
 
     "platformdirs>=4.3.6,<5",
-    "opencv-python-headless==4.11.0.86",
+    "opencv-python-headless>=4.10,<5",
     "einops>=0.8.1,<1",
 ]
 
 [project.urls]
-Repository = "https://github.com/sakshamsaxena/surya"
+Repository = "https://github.com/nexusaicodes/surya-tabular-ocr"
+Issues = "https://github.com/nexusaicodes/surya-tabular-ocr/issues"
 
 [dependency-groups]
 dev = [

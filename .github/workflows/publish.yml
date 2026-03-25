@@ -5,9 +5,13 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  id-token: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: pypi
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -17,6 +21,4 @@ jobs:
       - name: Build package
         run: uv build
       - name: Publish package
-        run: uv publish
-        env:
-          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: uv publish --trusted-publishing always

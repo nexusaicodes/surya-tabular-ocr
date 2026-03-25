@@ -83,8 +83,8 @@ All settings are in `surya/settings.py` and overridable via environment variable
 ## Development
 
 ```bash
-git clone https://github.com/sakshamsaxena/surya.git
-cd surya
+git clone https://github.com/nexusaicodes/surya-tabular-ocr.git
+cd surya-tabular-ocr
 uv sync --group dev
 pre-commit install          # enable ruff linting/formatting on commit
 uv run pytest
